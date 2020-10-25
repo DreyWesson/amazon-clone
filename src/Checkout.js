@@ -2,6 +2,7 @@ import React from "react";
 import { useStateValue } from "./StateProvider";
 import CheckoutProduct from "./CheckoutProduct";
 import "./Checkout.css";
+import { v4 as uuidv4 } from "uuid";
 import Subtotal from "./Subtotal";
 
 function Checkout() {
@@ -29,14 +30,14 @@ function Checkout() {
         ) : (
           <div>
             <h2 className="checkout__title">Your Shopping Basket</h2>
-            {basket.map((item, i) => (
+            {basket.map((item) => (
               <CheckoutProduct
                 id={item.id}
                 title={item.title}
                 image={item.image}
                 price={item.price}
                 rating={item.rating}
-                key={i}
+                key={uuidv4()}
               />
             ))}
           </div>

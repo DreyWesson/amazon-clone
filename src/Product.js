@@ -1,6 +1,7 @@
 import React from "react";
 import "./Product.css";
 import { useStateValue } from "./StateProvider";
+import { v4 as uuidv4 } from "uuid";
 
 function Product({ id, title, image, price, rating }) {
   const [{ basket }, dispatch] = useStateValue();
@@ -21,14 +22,14 @@ function Product({ id, title, image, price, rating }) {
       <div className="product__info">
         <p>{title}</p>
         <p className="product__price">
-          <small>£</small>
+          <small>$</small>
           <strong>{price}</strong>
         </p>
         <div className="product__rating">
           {Array(rating)
             .fill()
-            .map((_, i) => (
-              <span role="img" aria-label="ratings" key={i}>
+            .map((_) => (
+              <span role="img" aria-label="ratings" key={uuidv4()}>
                 🌟
               </span>
             ))}
