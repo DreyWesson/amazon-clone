@@ -5,7 +5,7 @@ import { Link, useHistory } from "react-router-dom";
 import { CheckoutProduct } from "./index";
 import { getBasketTotal } from "../reducers";
 import { useStateValue } from "../StateProvider";
-import { getClientSecret } from "../axios";
+import { getClientSecret } from "../utils/axios";
 import "./styles/Payment.css";
 import { db } from "../firebase";
 import { v4 as uuidv4 } from "uuid";
