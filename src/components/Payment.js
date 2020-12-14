@@ -2,15 +2,16 @@ import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import React, { useEffect, useState } from "react";
 import CurrencyFormat from "react-currency-format";
 import { Link, useHistory } from "react-router-dom";
-import CheckoutProduct from "./CheckoutProduct";
-import { getBasketTotal } from "./reducers";
-import { useStateValue } from "./StateProvider";
-import axios from "./axios";
-import "./Payment.css";
-import { db } from "./firebase";
+import { CheckoutProduct } from "./index";
+import { getBasketTotal } from "../reducers";
+import { useStateValue } from "../StateProvider";
+import { getClientSecret } from "../axios";
+import "./styles/Payment.css";
+import { db } from "../firebase";
 import { v4 as uuidv4 } from "uuid";
+import { useQuery } from "react-query";
 
-function Payment() {
+export function Payment() {
   const [{ basket, user }, dispatch] = useStateValue(),
     stripe = useStripe(),
     elements = useElements();
@@ -21,18 +22,29 @@ function Payment() {
     [disabled, setDisabled] = useState(true),
     [clientSecret, setClientSecret] = useState(true);
   const history = useHistory();
+  const [basketTotal, setBasketTotal] = useState(getBasketTotal(basket) * 100);
 
-  useEffect(() => {
-    const getClientSecret = async () => {
-      const response = await axios({
-        method: "post",
-        // Stripes expect the total in subunit
-        url: `/payments/create?total=${getBasketTotal(basket) * 100}`,
-      });
-      setClientSecret(response.data.clientSecret);
-    };
-    getClientSecret();
-  }, [basket]);
+  // useQuery implementation
+  const { data, status } = useQuery(
+    ["getClientSecret", basketTotal],
+    getClientSecret,
+    { staleTime: 5 * 60 * 60 }
+  );
+  console.log(data);
+  useEffect(() => setClientSecret(data?.data.clientSecret), [data]);
+
+  // useEffect(() => {
+  //   const getClientSecret = async () => {
+  //     const response = await axios({
+  //       method: "post",
+  //       // Stripes expect the total in subunit
+  //       url: `/payments/create?total=${getBasketTotal(basket) * 100}`,
+  //     });
+  //     console.log(response);
+  //     setClientSecret(response.data.clientSecret);
+  //   };
+  //   getClientSecret();
+  // }, [basket]);
 
   console.log("THE SECRET IS >>> ", clientSecret);
 
@@ -48,7 +60,6 @@ function Payment() {
       })
       .then(({ paymentIntent }) => {
         // paymentIntent = payment confirmation
-
         db.collection("users")
           .doc(user?.uid)
           .collection("orders")
@@ -62,14 +73,13 @@ function Payment() {
         setSucceeded(true);
         setError(null);
         setProcessing(false);
-
         dispatch({
           type: "EMPTY_BASKET",
         });
-
         history.replace("/orders");
       });
   };
+
   const handleChange = (event) => {
     setDisabled(event.empty);
     setError(event.error ? event.error.message : "");
@@ -118,11 +128,7 @@ function Payment() {
               <CardElement onChange={handleChange} />
               <div className="payment__priceContainer">
                 <CurrencyFormat
-                  renderText={(value) => (
-                    <>
-                      <h3>Order Total: {value}</h3>
-                    </>
-                  )}
+                  renderText={(value) => <h3>Order Total: {value}</h3>}
                   decimalScale={2}
                   value={getBasketTotal(basket)}
                   displayType={"text"}
@@ -141,5 +147,3 @@ function Payment() {
     </div>
   );
 }
-
-export default Payment;

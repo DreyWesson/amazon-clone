@@ -17,6 +17,8 @@
     "react-currency-format": "^1.0.0",
     "react-dom": "^16.14.0",
     "react-flip-move": "^3.0.4",
+    "react-query": "^2.26.3",
+    "react-query-devtools": "^2.6.3",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",
     "uuid": "^8.3.1"

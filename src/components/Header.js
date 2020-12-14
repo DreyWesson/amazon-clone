@@ -1,12 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "./Header.css";
+import "./styles/Header.css";
 import SearchIcon from "@material-ui/icons/Search";
 import ShoppingBasketIcon from "@material-ui/icons/ShoppingBasket";
-import { useStateValue } from "./StateProvider";
-import { auth } from "./firebase";
+import { useStateValue } from "../StateProvider";
+import { auth } from "../firebase";
 
-function Header() {
+export function Header() {
   const [{ basket, user }] = useStateValue();
   const handleAuthentication = () => user && auth.signOut();
 
@@ -63,5 +63,3 @@ function Header() {
     </nav>
   );
 }
-
-export default Header;

@@ -1,11 +1,12 @@
 import React from "react";
 import moment from "moment";
-import "./Order.css";
-import CheckoutProduct from "./CheckoutProduct";
+import "./styles/Order.css";
+import { CheckoutProduct } from "./index";
+
 import CurrencyFormat from "react-currency-format";
 import { v4 as uuidv4 } from "uuid";
 
-function Order({ order }) {
+export function Order({ order }) {
   return (
     <div className="order">
       <h2>Order</h2>
@@ -39,5 +40,3 @@ function Order({ order }) {
     </div>
   );
 }
-
-export default Order;

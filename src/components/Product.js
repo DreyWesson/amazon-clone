@@ -1,9 +1,9 @@
 import React from "react";
-import "./Product.css";
-import { useStateValue } from "./StateProvider";
+import "./styles/Product.css";
+import { useStateValue } from "../StateProvider";
 import { v4 as uuidv4 } from "uuid";
 
-function Product({ id, title, image, price, rating }) {
+export function Product({ id, title, image, price, rating }) {
   const [{ basket }, dispatch] = useStateValue();
   const addToBasket = () => {
     dispatch({
@@ -40,5 +40,3 @@ function Product({ id, title, image, price, rating }) {
     </div>
   );
 }
-
-export default Product;

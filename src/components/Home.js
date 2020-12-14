@@ -1,8 +1,8 @@
 import React from "react";
-import Product from "./Product";
-import "./Home.css";
+import { Product } from "./index";
+import "./styles/Home.css";
 
-function Home() {
+export function Home() {
   return (
     <div className="home">
       <div className="home__container">
@@ -73,5 +73,3 @@ function Home() {
     </div>
   );
 }
-
-export default Home;

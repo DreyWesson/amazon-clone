@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { auth } from "./firebase";
-import "./Login.css";
+import { auth } from "../firebase";
+import "./styles/Login.css";
 
-function Login() {
+export function Login() {
   const history = useHistory();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -81,5 +81,3 @@ function Login() {
     </div>
   );
 }
-
-export default Login;

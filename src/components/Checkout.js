@@ -1,11 +1,10 @@
 import React from "react";
-import { useStateValue } from "./StateProvider";
-import CheckoutProduct from "./CheckoutProduct";
-import "./Checkout.css";
+import { useStateValue } from "../StateProvider";
+import { CheckoutProduct, Subtotal } from "./index";
+import "./styles/Checkout.css";
 import { v4 as uuidv4 } from "uuid";
-import Subtotal from "./Subtotal";
 
-function Checkout() {
+export function Checkout() {
   const [{ basket, user }] = useStateValue();
 
   return (
@@ -52,5 +51,3 @@ function Checkout() {
     </div>
   );
 }
-
-export default Checkout;
