@@ -12,6 +12,7 @@ export function CheckoutProduct({
   hideButton,
 }) {
   const [{ basket }, dispatch] = useStateValue();
+  console.log(basket);
   const removeFromBasket = () => {
     dispatch({
       type: "REMOVE_FROM_BASKET",

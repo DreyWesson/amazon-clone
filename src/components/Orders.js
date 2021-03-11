@@ -7,6 +7,7 @@ import { useStateValue } from "../StateProvider";
 export function Orders() {
   const [{ user }, dispatch] = useStateValue();
   const [orders, setOrders] = useState([]);
+  console.log(dispatch);
 
   useEffect(() => {
     user

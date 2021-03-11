@@ -22,14 +22,12 @@ export function Payment() {
     [disabled, setDisabled] = useState(true),
     [clientSecret, setClientSecret] = useState(true);
   const history = useHistory();
-  const [basketTotal, setBasketTotal] = useState(getBasketTotal(basket) * 100);
+  const [basketTotal] = useState(getBasketTotal(basket) * 100);
 
   // useQuery implementation
-  const { data, status } = useQuery(
-    ["getClientSecret", basketTotal],
-    getClientSecret,
-    { staleTime: 5 * 60 * 60 }
-  );
+  const { data } = useQuery(["getClientSecret", basketTotal], getClientSecret, {
+    staleTime: 5 * 60 * 60,
+  });
   console.log(data);
   useEffect(() => setClientSecret(data?.data.clientSecret), [data]);
 
@@ -52,7 +50,7 @@ export function Payment() {
     event.preventDefault();
     setProcessing(true);
 
-    const payload = await stripe
+    await stripe
       .confirmCardPayment(clientSecret, {
         payment_method: {
           card: elements.getElement(CardElement),
