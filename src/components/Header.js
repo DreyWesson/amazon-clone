@@ -10,6 +10,8 @@ export function Header() {
   const [{ basket, user }] = useStateValue();
   const handleAuthentication = () => user && auth.signOut();
 
+  console.log(user);
+
   return (
     <nav className="header">
       {/* Logo on the left */}
@@ -27,7 +29,7 @@ export function Header() {
       </div>
       {/* links */}
       <div className="header__nav">
-        <Link to={!user && "/login"} className="header__link">
+        <Link to={!user ? "/login" : ""} className="header__link">
           <div onClick={handleAuthentication} className="header__option">
             <span className="header__optionLineOne">
               Hello, {user ? user?.email : "Guest"}
